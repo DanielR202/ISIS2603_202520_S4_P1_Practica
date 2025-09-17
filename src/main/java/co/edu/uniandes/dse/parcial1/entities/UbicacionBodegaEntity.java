@@ -5,6 +5,8 @@ import jakarta.persistence.OneToMany;
 import lombok.Data;
 import uk.co.jemos.podam.common.PodamExclude;
 
+import co.edu.uniandes.dse.parcial1.entities.MercanciaEntity;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -12,7 +14,7 @@ import java.util.ArrayList;
 @Entity
 public class UbicacionBodegaEntity extends BaseEntity{
     private Integer numeroDeEstante;
-    private String CanastaMercancia;
+    private List<MercanciaEntity> CanastaMercancia;
     private Integer pesoMaximo;
 
     @PodamExclude

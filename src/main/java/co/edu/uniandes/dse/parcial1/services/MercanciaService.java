@@ -8,7 +8,7 @@ import co.edu.uniandes.dse.parcial1.entities.MercanciaEntity;
 import co.edu.uniandes.dse.parcial1.exceptions.IllegalOperationException;
 
 import java.util.List;
-import java.util.Date;
+import java.util.ArrayList;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
@@ -22,14 +22,22 @@ public class MercanciaService {
     MercanciaRepository mercanciaRepository;
 
     @Transactional
-    public List<MercanciaEntity> getMercancias() {
-        return mercanciaRepository.findAll();
+    private List<String> getMercanciasBarras() {
+        List<MercanciaEntity> mercancias = mercanciaRepository.findAll();
+        List<String> barras = new ArrayList<>();
+        for (MercanciaEntity me : mercancias) {
+            barras.add(me.getCodigoDeBarras());
+        }
+        return barras;
     }
 
     @Transactional
     public MercanciaEntity createMercancia(MercanciaEntity mercancia) throws IllegalOperationException {
         if (mercancia.getCodigoDeBarras().isEmpty()) {
             throw new IllegalOperationException("Código de barras vacío");
+        }
+        if (getMercanciasBarras().contains(mercancia.getCodigoDeBarras())) {
+            throw new IllegalOperationException("Código de barras duplicado");
         }
         if (mercancia.getNombre().isEmpty()) {
             throw new IllegalOperationException("Nombre vacío");
